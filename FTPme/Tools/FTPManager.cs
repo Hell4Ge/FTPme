@@ -17,11 +17,34 @@ namespace FTPme.Tools
         private Stream ftpStream = null;
         private int bufferSize = 2048;
 
-        private bool Connected = false;
+        public bool Connected = false;
 
         /* Construct Object */
-        public FTPManager(string hostIP, string userName, string password) { host = hostIP; user = userName; pass = password;
-        
+        public FTPManager(string hostAddr, string username, string password)
+        {
+            int count = 0;
+            foreach (char c in hostAddr)
+                if (c == '.') count++;
+
+            if (!hostAddr.Contains(@"ftp://"))
+                host = @"ftp://";
+
+            if (count == 3)         // if hostAddr is in IPAddress form
+                host = hostAddr;
+            else
+            {
+                IPAddress[] ip = Dns.GetHostAddresses(hostAddr);
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i != 3)
+                        host += ip[0].GetAddressBytes()[i].ToString() + '.';
+                    else
+                        host += ip[0].GetAddressBytes()[i].ToString();
+                }
+            }
+
+            user = username;
+            pass = password;
         }
 
         /* Download File */
@@ -33,6 +56,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + remoteFile);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -63,6 +87,7 @@ namespace FTPme.Tools
                 ftpStream.Close();
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             return;
@@ -77,6 +102,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + remoteFile);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -104,6 +130,7 @@ namespace FTPme.Tools
                 localFileStream.Close();
                 ftpStream.Close();
                 ftpRequest = null;
+                Connected = false;
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             return;
@@ -118,6 +145,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)WebRequest.Create(host + "/" + deleteFile);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -129,6 +157,7 @@ namespace FTPme.Tools
                 /* Resource Cleanup */
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             return;
@@ -143,6 +172,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)WebRequest.Create(host + "/" + currentFileNameAndPath);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -156,6 +186,7 @@ namespace FTPme.Tools
                 /* Resource Cleanup */
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             return;
@@ -170,6 +201,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)WebRequest.Create(host + "/" + newDirectory);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -181,6 +213,7 @@ namespace FTPme.Tools
                 /* Resource Cleanup */
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             return;
@@ -195,6 +228,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + fileName);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -217,6 +251,7 @@ namespace FTPme.Tools
                 ftpStream.Close();
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
                 /* Return File Created Date Time */
                 return fileInfo;
             }
@@ -234,6 +269,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + fileName);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -256,6 +292,7 @@ namespace FTPme.Tools
                 ftpStream.Close();
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
                 /* Return File Size */
                 return fileInfo;
             }
@@ -273,6 +310,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + directory);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -295,6 +333,7 @@ namespace FTPme.Tools
                 ftpStream.Close();
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
                 /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
                 try { string[] directoryList = directoryRaw.Split("|".ToCharArray()); return directoryList; }
                 catch (Exception ex) { Console.WriteLine(ex.ToString()); }
@@ -313,6 +352,7 @@ namespace FTPme.Tools
                 ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + directory);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
+                Connected = true;
                 /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
@@ -335,6 +375,7 @@ namespace FTPme.Tools
                 ftpStream.Close();
                 ftpResponse.Close();
                 ftpRequest = null;
+                Connected = false;
                 /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
                 try { string[] directoryList = directoryRaw.Split("|".ToCharArray()); return directoryList; }
                 catch (Exception ex) { Console.WriteLine(ex.ToString()); }
