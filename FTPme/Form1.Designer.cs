@@ -30,7 +30,12 @@
         {
             this.TB_Main = new System.Windows.Forms.TabControl();
             this.tab_content = new System.Windows.Forms.TabPage();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.fastDataListView1 = new BrightIdeasSoftware.FastDataListView();
+            this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvSize = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvCreation = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvRights = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.button1 = new System.Windows.Forms.Button();
             this.tab_settings = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.TB_Padding = new System.Windows.Forms.TextBox();
@@ -39,8 +44,11 @@
             this.CB_Keep_Alive = new System.Windows.Forms.CheckBox();
             this.CB_Use_Passive = new System.Windows.Forms.CheckBox();
             this.CB_Use_Binary = new System.Windows.Forms.CheckBox();
+            this.olvType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvOG = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.TB_Main.SuspendLayout();
             this.tab_content.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastDataListView1)).BeginInit();
             this.tab_settings.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.GB_Mode.SuspendLayout();
@@ -58,7 +66,8 @@
             // 
             // tab_content
             // 
-            this.tab_content.Controls.Add(this.treeView1);
+            this.tab_content.Controls.Add(this.fastDataListView1);
+            this.tab_content.Controls.Add(this.button1);
             this.tab_content.Location = new System.Drawing.Point(4, 22);
             this.tab_content.Name = "tab_content";
             this.tab_content.Padding = new System.Windows.Forms.Padding(3);
@@ -67,17 +76,69 @@
             this.tab_content.Text = "Main tab";
             this.tab_content.UseVisualStyleBackColor = true;
             // 
-            // treeView1
+            // fastDataListView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(23, 26);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(297, 331);
-            this.treeView1.TabIndex = 0;
+            this.fastDataListView1.AllColumns.Add(this.olvName);
+            this.fastDataListView1.AllColumns.Add(this.olvSize);
+            this.fastDataListView1.AllColumns.Add(this.olvCreation);
+            this.fastDataListView1.AllColumns.Add(this.olvRights);
+            this.fastDataListView1.AllColumns.Add(this.olvType);
+            this.fastDataListView1.AllColumns.Add(this.olvOG);
+            this.fastDataListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvName,
+            this.olvSize,
+            this.olvCreation,
+            this.olvRights,
+            this.olvType,
+            this.olvOG});
+            this.fastDataListView1.DataSource = null;
+            this.fastDataListView1.Location = new System.Drawing.Point(16, 87);
+            this.fastDataListView1.Name = "fastDataListView1";
+            this.fastDataListView1.ShowGroups = false;
+            this.fastDataListView1.Size = new System.Drawing.Size(403, 294);
+            this.fastDataListView1.TabIndex = 2;
+            this.fastDataListView1.UseCompatibleStateImageBehavior = false;
+            this.fastDataListView1.View = System.Windows.Forms.View.Details;
+            this.fastDataListView1.VirtualMode = true;
+            // 
+            // olvName
+            // 
+            this.olvName.AspectName = "Name";
+            this.olvName.CellPadding = null;
+            this.olvName.Text = "Name";
+            // 
+            // olvSize
+            // 
+            this.olvSize.AspectName = "Size";
+            this.olvSize.CellPadding = null;
+            this.olvSize.Text = "Size";
+            // 
+            // olvCreation
+            // 
+            this.olvCreation.AspectName = "Creation";
+            this.olvCreation.CellPadding = null;
+            this.olvCreation.Text = "Creation Date";
+            // 
+            // olvRights
+            // 
+            this.olvRights.AspectName = "Rights";
+            this.olvRights.CellPadding = null;
+            this.olvRights.Text = "Rights";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(645, 358);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // tab_settings
             // 
             this.tab_settings.Controls.Add(this.groupBox1);
-            this.tab_settings.Controls.Add(this.GB_Mode);      
+            this.tab_settings.Controls.Add(this.GB_Mode);
             this.tab_settings.Location = new System.Drawing.Point(4, 22);
             this.tab_settings.Name = "tab_settings";
             this.tab_settings.Padding = new System.Windows.Forms.Padding(3);
@@ -156,6 +217,19 @@
             this.CB_Use_Binary.Text = "Use binary";
             this.CB_Use_Binary.UseVisualStyleBackColor = true;
             // 
+            // olvType
+            // 
+            this.olvType.AspectName = "Type";
+            this.olvType.CellPadding = null;
+            this.olvType.Text = "Type";
+            // 
+            // olvOG
+            // 
+            this.olvOG.AspectName = "OG";
+            this.olvOG.CellPadding = null;
+            this.olvOG.Text = "Owner / group";
+            this.olvOG.Width = 88;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -167,6 +241,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.TB_Main.ResumeLayout(false);
             this.tab_content.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fastDataListView1)).EndInit();
             this.tab_settings.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -185,10 +260,18 @@
         private System.Windows.Forms.GroupBox GB_Mode;
         private System.Windows.Forms.CheckBox CB_Use_Passive;
         private System.Windows.Forms.CheckBox CB_Keep_Alive;
-        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox TB_Padding;
         private System.Windows.Forms.Label LB_Filebox_padding;
+        private System.Windows.Forms.Button button1;
+        public BrightIdeasSoftware.FastDataListView fastDataListView1;
+        private BrightIdeasSoftware.OLVColumn olvName;
+        private BrightIdeasSoftware.OLVColumn olvSize;
+        private BrightIdeasSoftware.OLVColumn olvCreation;
+        private BrightIdeasSoftware.OLVColumn olvRights;
+        private BrightIdeasSoftware.OLVColumn olvType;
+        private BrightIdeasSoftware.OLVColumn olvOG;
+        
     }
 }
 
