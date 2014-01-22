@@ -7,27 +7,54 @@ namespace FTPme.Tools
 {
     public class RowScheme
     {
-        static string name;
-        static string size;
-        static string creation;
-        static string rights;
-        static string type;
-        static string og;
 
-        public RowScheme(string Name , string Size, string Creation, string Rights, string Type, string Og)
+        static string rights;
+        static string hl;
+        static string uid;
+        static string gid;
+        static string size;
+        //static DateTime dt;
+        static string name;
+
+        // =====================================================================================
+        //     [0]       [1]     [2]         [3]            [4]          [5-7]           [8]    ||
+        //  ==RIGHTS==  =HL=    =UID=     == GID ==      == SIZE ==  === DATE ===  == FNAME ==  ||
+        //  drwxrwxr-x    6    1089909    www-data         4096       Dec 18 23:49  templates|  ||
+        //  -rw-rw-r--    1    1089909    www-data            0       Jan 20 03:38  test.txt|   ||
+        // =====================================================================================
+
+        public RowScheme(string Rights , string Hardlinks, string UID, string GID, string Size, /*DateTime Dt,*/ string Name)
         {
-            name = Name;
-            size = Size;
-            creation = Creation;
             rights = Rights;
-            type = Type;
-            og = Og;
+            hl = Hardlinks;
+            uid = UID;
+            gid = GID;
+            size = Size;
+            //dt = Dt;
+            name = Name;
         }
+
+        /*
+        public string LMDate
+        {
+            get { 
+                string date ="";
+                date += dt.Day.ToString() + ':' + dt.Month.ToString() + ':' + dt.Year.ToString();
+                return date;
+            }
+        }
+        */
 
         public string Name
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public string HL
+        {
+            get { return hl; }
+            set { hl = value; }
         }
 
         public string Size
@@ -36,16 +63,10 @@ namespace FTPme.Tools
             set { size = value; }
         }
 
-        public string Creation
+        public string GID
         {
-            get { return creation; }
-            set { creation = value; }
-        }
-
-        public string Type
-        {
-            get { return type; }
-            set { type = value; }
+            get { return gid; }
+            set { gid = value; }
         }
 
         public string Rights
@@ -54,17 +75,15 @@ namespace FTPme.Tools
             set { rights = value; }
         }
 
-        public string OG
-        {
-            get { return og; }
-            set { og = value; }
-        } 
-
         static internal List<RowScheme> GET()
         {
-            RowScheme item = new RowScheme(name,  size, creation, rights, type, og);
+            // public RowScheme(string Rights , string Hardlinks, string UID, string GID, string Size, DateTime Dt, string Name)
+            RowScheme item = new RowScheme(rights,  hl, uid, gid, size, /*dt,*/ name);
             
             List<RowScheme> ret = new List<RowScheme>();
+            ret.Add(item);
+            //Form1.richDebug.AppendText("Created new row" + '\n');
+            
             return ret;
         }
     }
