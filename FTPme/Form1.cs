@@ -24,7 +24,7 @@ namespace FTPme
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FTPManager ftp = new FTPManager(@"ftp://cba.pl", "admin@demoncraft.c0.pl", "bodzio17");
+            FTPManager ftp = new FTPManager(@"ftp://cba.pl", "admin@demoncraft.c0.pl", "huehuehueNope");
             List<RowScheme> dirs = ftp.SchemeRowList("/");
 
             fastDataListView1.SetObjects(dirs, true);
